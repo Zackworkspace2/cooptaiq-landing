@@ -530,6 +530,16 @@ h2 {
   line-height: 1.5;
 }
 
+.form-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+}
+
 .form-success {
   display: flex;
   align-items: flex-start;

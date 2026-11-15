@@ -207,6 +207,12 @@ if (corridorFill) corridorFill.style.width = '100%';
    ========================================================= */
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const FORM_ENDPOINT_PATTERN = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/;
+
+function getFormEndpoint() {
+  const meta = document.querySelector('meta[name="form-endpoint"]');
+  return meta ? meta.getAttribute('content').trim() : '';
+}
 
 document.querySelectorAll('[data-signup]').forEach((form) => {
   const field = form.querySelector('[data-field]');
@@ -226,8 +232,10 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
     if (!error.hidden) clearError();
   });
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    if (form.getAttribute('aria-busy') === 'true') return;
 
     const value = input.value.trim();
 
@@ -239,16 +247,30 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
       return;
     }
 
+    const endpoint = getFormEndpoint();
+
+    if (!FORM_ENDPOINT_PATTERN.test(endpoint)) {
+      error.textContent = 'Requests are not connected yet. Add your Formspree endpoint in the page head.';
+      error.hidden = false;
+      return;
+    }
+
     clearError();
     form.setAttribute('aria-busy', 'true');
     button.disabled = true;
     button.textContent = 'Sending…';
 
-    /*
-      Front-end demo only. Replace this timeout with a POST to your form
-      endpoint (Formspree, Resend, HubSpot, etc.) before launch.
-    */
-    window.setTimeout(() => {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Formspree rejected the request (${response.status}).`);
+      }
+
       form.removeAttribute('aria-busy');
       field.hidden = true;
       success.hidden = false;
@@ -256,7 +278,14 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
       success.focus({ preventScroll: true });
       button.disabled = false;
       button.textContent = buttonLabel;
-    }, 700);
+    } catch (requestError) {
+      form.removeAttribute('aria-busy');
+      button.disabled = false;
+      button.textContent = buttonLabel;
+      error.textContent = 'Could not send your request. Check your connection and try again.';
+      error.hidden = false;
+      console.error('CooptaIQ form submission failed:', requestError);
+    }
   });
 });
 
