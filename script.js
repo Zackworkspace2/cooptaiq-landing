@@ -1,6 +1,59 @@
 'use strict';
 
 /* =========================================================
+   Theme
+   ========================================================= */
+
+const root = document.documentElement;
+const themeToggle = document.querySelector('[data-theme-toggle]');
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+const THEME_KEY = 'cooptaiq-theme';
+
+function currentTheme() {
+  return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+}
+
+function syncTheme(theme) {
+  const light = theme === 'light';
+
+  root.setAttribute('data-theme', light ? 'light' : 'dark');
+
+  if (themeColorMeta) {
+    themeColorMeta.setAttribute('content', light ? '#F6F4EE' : '#12213B');
+  }
+
+  if (themeToggle) {
+    const next = light ? 'dark' : 'light';
+    themeToggle.setAttribute('aria-pressed', String(light));
+    themeToggle.setAttribute('aria-label', `Switch to ${next} mode`);
+    themeToggle.setAttribute('title', `Switch to ${next} mode`);
+  }
+}
+
+function setTheme(theme, persist = true) {
+  syncTheme(theme);
+
+  if (!persist) return;
+
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch (error) {}
+}
+
+if (themeToggle) {
+  syncTheme(currentTheme());
+
+  themeToggle.addEventListener('click', () => {
+    setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key !== THEME_KEY) return;
+    syncTheme(event.newValue === 'light' ? 'light' : 'dark');
+  });
+}
+
+/* =========================================================
    Confirmation corridor — stage data
    ========================================================= */
 

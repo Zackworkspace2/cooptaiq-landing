@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CooptaIQ — Admitted. Assessed. Confirmed.</title>
   <meta name="description" content="CooptaIQ turns your policy documents into a structured onboarding curriculum, a pass-or-fail assessment, and a 90-day probation record that ends in confirmation.">
   <meta name="theme-color" content="#12213B">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('cooptaiq-theme');
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', saved);
+          if (saved === 'light') {
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F6F4EE');
+          }
+        }
+      } catch (error) {}
+    })();
+  </script>
   <meta property="og:title" content="CooptaIQ — Admitted. Assessed. Confirmed.">
   <meta property="og:description" content="Every new hire, guided from document to confirmed employee.">
   <meta property="og:type" content="website">
@@ -22,24 +35,31 @@
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="CooptaIQ — home">
         <svg class="brand-mark" width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <circle cx="8" cy="20" r="3.5" fill="#C6972F" opacity="0.4"/>
-          <circle cx="18" cy="20" r="4.5" fill="#C6972F" opacity="0.7"/>
-          <circle cx="29" cy="20" r="5.5" fill="#C6972F"/>
+          <circle class="mark-dot" cx="8" cy="20" r="3.5" fill="#C6972F" opacity="0.4"/>
+          <circle class="mark-dot" cx="18" cy="20" r="4.5" fill="#C6972F" opacity="0.7"/>
+          <circle class="mark-dot" cx="29" cy="20" r="5.5" fill="#C6972F"/>
           <polyline points="25,17 29,21 35,14" stroke="#C6972F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span class="brand-word">Coopta<span>IQ</span></span>
       </a>
 
-      <nav class="site-nav" id="site-nav" aria-label="Primary">
-        <a href="#how" data-nav>How it works</a>
-        <a href="#sectors" data-nav>Built for</a>
-        <a href="#record" data-nav>The record</a>
-        <a class="btn btn--brass nav-cta" href="#access">Request early access</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="site-nav" id="site-nav" aria-label="Primary">
+          <a href="#how" data-nav>How it works</a>
+          <a href="#sectors" data-nav>Built for</a>
+          <a href="#record" data-nav>The record</a>
+          <a class="btn btn--brass nav-cta" href="#access">Request early access</a>
+        </nav>
 
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
-      </button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode" aria-pressed="false" title="Switch to light mode">
+          <img class="theme-icon theme-icon--moon" src="assets/halfmoon.png" width="20" height="20" alt="" aria-hidden="true">
+          <img class="theme-icon theme-icon--sun" src="assets/sunlight.png" width="20" height="20" alt="" aria-hidden="true">
+        </button>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -372,9 +392,9 @@
       <div class="footer-brand">
         <a class="brand" href="#top" aria-label="CooptaIQ — back to top">
           <svg class="brand-mark" width="26" height="26" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <circle cx="8" cy="20" r="3.5" fill="#C6972F" opacity="0.4"/>
-            <circle cx="18" cy="20" r="4.5" fill="#C6972F" opacity="0.7"/>
-            <circle cx="29" cy="20" r="5.5" fill="#C6972F"/>
+            <circle class="mark-dot" cx="8" cy="20" r="3.5" fill="#C6972F" opacity="0.4"/>
+            <circle class="mark-dot" cx="18" cy="20" r="4.5" fill="#C6972F" opacity="0.7"/>
+            <circle class="mark-dot" cx="29" cy="20" r="5.5" fill="#C6972F"/>
             <polyline points="25,17 29,21 35,14" stroke="#C6972F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span class="brand-word">Coopta<span>IQ</span></span>
