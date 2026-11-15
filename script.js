@@ -26,21 +26,21 @@ const existingConsent = getCookie(CONSENT_COOKIE);
 if (existingConsent) root.dataset.cookieConsent = existingConsent;
 
 function currentTheme() {
-  return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
 }
 
 function syncTheme(theme) {
-  const light = theme === 'light';
+  const dark = theme === 'dark';
 
-  root.setAttribute('data-theme', light ? 'light' : 'dark');
+  root.setAttribute('data-theme', dark ? 'dark' : 'light');
 
   if (themeColorMeta) {
-    themeColorMeta.setAttribute('content', light ? '#F6F4EE' : '#12213B');
+    themeColorMeta.setAttribute('content', dark ? '#12213B' : '#F6F4EE');
   }
 
   if (themeToggle) {
-    const next = light ? 'dark' : 'light';
-    themeToggle.setAttribute('aria-pressed', String(light));
+    const next = dark ? 'light' : 'dark';
+    themeToggle.setAttribute('aria-pressed', String(!dark));
     themeToggle.setAttribute('aria-label', `Switch to ${next} mode`);
     themeToggle.setAttribute('title', `Switch to ${next} mode`);
   }
@@ -62,12 +62,12 @@ if (themeToggle) {
   syncTheme(currentTheme());
 
   themeToggle.addEventListener('click', () => {
-    setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+    setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
   });
 
   window.addEventListener('storage', (event) => {
     if (event.key !== THEME_KEY) return;
-    syncTheme(event.newValue === 'light' ? 'light' : 'dark');
+    syncTheme(event.newValue === 'dark' ? 'dark' : 'light');
   });
 }
 
@@ -95,7 +95,6 @@ function closeCookieBanner() {
   if (!cookieBanner) return;
 
   cookieBanner.hidden = true;
-
   if (mainContent) mainContent.focus({ preventScroll: true });
 }
 
@@ -103,176 +102,90 @@ if (cookieBanner && !getCookie(CONSENT_COOKIE)) {
   showCookieBanner();
 }
 
-cookieBanner?.querySelectorAll('[data-cookie-choice]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const choice = button.getAttribute('data-cookie-choice');
+if (cookieBanner) {
+  cookieBanner.querySelectorAll('[data-cookie-choice]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const choice = button.getAttribute('data-cookie-choice');
 
-    setCookie(CONSENT_COOKIE, choice, 180);
-    root.dataset.cookieConsent = choice;
+      setCookie(CONSENT_COOKIE, choice, 180);
+      root.dataset.cookieConsent = choice;
 
-    if (cookieStatus) {
-      cookieStatus.textContent = 'Cookie preferences saved.';
-    }
+      if (cookieStatus) {
+        cookieStatus.textContent = 'Cookie preferences saved.';
+      }
 
-    closeCookieBanner();
+      closeCookieBanner();
+    });
   });
-});
+}
 
 cookieSettings?.addEventListener('click', () => {
   showCookieBanner(true);
 });
 
 /* =========================================================
-   Confirmation corridor — stage data
+   Product preview tabs
    ========================================================= */
 
-const stages = [
-  {
-    stage: 'Stage 01 of 05',
-    state: 'Documents uploaded',
-    desc: 'The handbook, code of conduct and compliance manuals are on file.',
-    foot: 'Record opened · 03 Mar 2026',
-    log: [
-      ['03 Mar 2026', 'Documents received', '3 documents · 84 pages indexed'],
-      ['03 Mar 2026', 'Record opened', 'New hire — Operations'],
-      ['04 Mar 2026', 'Awaiting curriculum', 'Generated from approved policy only']
-    ]
-  },
-  {
-    stage: 'Stage 02 of 05',
-    state: 'Curriculum generated',
-    desc: 'Eleven modules and a 46-question bank, built from your own policy.',
-    foot: 'Curriculum ready · 05 Mar 2026',
-    log: [
-      ['03 Mar 2026', 'Documents received', '3 documents · 84 pages indexed'],
-      ['05 Mar 2026', 'Curriculum generated', '11 modules · 46-question bank'],
-      ['05 Mar 2026', 'Awaiting assessment', 'Assigned to role and department']
-    ]
-  },
-  {
-    stage: 'Stage 03 of 05',
-    state: 'Assessment passed',
-    desc: 'Tested, scored and on record before probation formally begins.',
-    foot: 'Assessment recorded · 18 Mar 2026',
-    log: [
-      ['05 Mar 2026', 'Curriculum generated', '11 modules · 46-question bank'],
-      ['18 Mar 2026', 'Litmus assessment', '94.2% · 11 of 11 modules complete'],
-      ['18 Mar 2026', 'Probation begins', '90-day window opened']
-    ]
-  },
-  {
-    stage: 'Stage 04 of 05',
-    state: 'Probation tracked',
-    desc: 'Three review milestones, each with a manager sign-off.',
-    foot: 'Reviews in progress · 12 May 2026',
-    log: [
-      ['18 Mar 2026', 'Assessment passed', '94.2% · 11 of 11 modules complete'],
-      ['14 Apr 2026', 'Review 01 signed', 'Manager sign-off recorded'],
-      ['12 May 2026', 'Review 02 signed', 'Manager sign-off recorded']
-    ]
-  },
-  {
-    stage: 'Stage 05 of 05',
-    state: 'Confirmed',
-    desc: 'Status written to the employee record and synced to payroll.',
-    foot: 'Record complete · 02 Jun 2026',
-    log: [
-      ['03 Mar 2026', 'Documents received', '3 documents · 84 pages indexed'],
-      ['18 Mar 2026', 'Assessment passed', '94.2% · 11 of 11 modules complete'],
-      ['02 Jun 2026', 'Confirmed', '3 review sign-offs · payroll synced']
-    ]
-  }
-];
+const previewTabs = Array.from(document.querySelectorAll('[data-preview-tab]'));
+const previewPanels = Array.from(document.querySelectorAll('[data-preview-panel]'));
+const previewFrame = document.querySelector('.product-frame');
 
-/* =========================================================
-   Corridor interaction
-   ========================================================= */
+const previewLabels = {
+  overview: 'Illustrative CooptaIQ overview preview showing people, assessments and learning activity.',
+  people: 'Illustrative CooptaIQ people preview showing an employee list and departments.',
+  assessments: 'Illustrative CooptaIQ assessments preview showing active and closed assessments.',
+  learning: 'Illustrative CooptaIQ learning preview showing assigned courses and progress.'
+};
 
-const corridorButtons = Array.from(document.querySelectorAll('.corridor-stop'));
-const recordStage = document.querySelector('[data-record-stage]');
-const recordState = document.querySelector('[data-record-state]');
-const recordDesc = document.querySelector('[data-record-desc]');
-const recordFoot = document.querySelector('[data-record-foot]');
-const recordLog = document.querySelector('[data-record-log]');
-const recordDots = Array.from(document.querySelectorAll('.rp-dot'));
-const corridorFill = document.querySelector('[data-corridor-fill]');
-
-function updateCorridor(index) {
-  const data = stages[index];
-
-  corridorButtons.forEach((button, i) => {
-    button.setAttribute('aria-pressed', String(i === index));
+function activatePreview(key, focusTab = false) {
+  previewTabs.forEach((tab) => {
+    const active = tab.getAttribute('data-preview-tab') === key;
+    tab.classList.toggle('is-active', active);
+    tab.setAttribute('aria-pressed', String(active));
+    if (active && focusTab) tab.focus();
   });
 
-  recordStage.textContent = data.stage;
-  recordState.textContent = data.state;
-  recordDesc.textContent = data.desc;
-  recordFoot.textContent = data.foot;
+  previewPanels.forEach((panel) => {
+    const active = panel.getAttribute('data-preview-panel') === key;
+    panel.hidden = !active;
 
-  recordDots.forEach((dot, i) => {
-    dot.classList.toggle('is-on', i <= index);
+    if (active) {
+      panel.classList.remove('is-entering');
+      void panel.offsetWidth;
+      panel.classList.add('is-entering');
+    }
   });
 
-  if (corridorFill) {
-    corridorFill.style.width = `${index * 25}%`;
-  }
-
-  if (recordLog) {
-    const fragment = document.createDocumentFragment();
-
-    data.log.forEach(([date, title, detail]) => {
-      const item = document.createElement('li');
-      const dateEl = document.createElement('span');
-      const copyEl = document.createElement('span');
-      const strongEl = document.createElement('strong');
-      const detailEl = document.createElement('span');
-
-      dateEl.className = 'log-date';
-      dateEl.textContent = date;
-
-      copyEl.className = 'log-copy';
-      strongEl.textContent = title;
-      detailEl.textContent = detail;
-
-      copyEl.append(strongEl, detailEl);
-      item.append(dateEl, copyEl);
-      fragment.append(item);
-    });
-
-    recordLog.replaceChildren(fragment);
+  if (previewFrame && previewLabels[key]) {
+    previewFrame.setAttribute('aria-label', previewLabels[key]);
   }
 }
 
-corridorButtons.forEach((button, index) => {
-  button.addEventListener('click', () => updateCorridor(index));
+if (previewTabs.length) {
+  previewTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      activatePreview(tab.getAttribute('data-preview-tab'));
+    });
 
-  button.addEventListener('keydown', (event) => {
-    let nextIndex = null;
+    tab.addEventListener('keydown', (event) => {
+      let nextIndex = null;
 
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-      nextIndex = (index + 1) % corridorButtons.length;
-    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-      nextIndex = (index - 1 + corridorButtons.length) % corridorButtons.length;
-    } else if (event.key === 'Home') {
-      nextIndex = 0;
-    } else if (event.key === 'End') {
-      nextIndex = corridorButtons.length - 1;
-    }
+      if (event.key === 'ArrowRight') nextIndex = (index + 1) % previewTabs.length;
+      if (event.key === 'ArrowLeft') nextIndex = (index - 1 + previewTabs.length) % previewTabs.length;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = previewTabs.length - 1;
 
-    if (nextIndex === null) return;
+      if (nextIndex === null) return;
 
-    event.preventDefault();
-    updateCorridor(nextIndex);
-    corridorButtons[nextIndex].focus();
+      event.preventDefault();
+      activatePreview(previewTabs[nextIndex].getAttribute('data-preview-tab'), true);
+    });
   });
-});
-
-/* Mark the default stage without re-rendering its content. */
-recordDots.forEach((dot) => dot.classList.add('is-on'));
-if (corridorFill) corridorFill.style.width = '100%';
+}
 
 /* =========================================================
-   Email forms
+   Waitlist form
    ========================================================= */
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -285,7 +198,8 @@ function getFormEndpoint() {
 
 document.querySelectorAll('[data-signup]').forEach((form) => {
   const field = form.querySelector('[data-field]');
-  const input = form.querySelector('input[type="email"]');
+  const nameInput = form.querySelector('input[name="full_name"]');
+  const emailInput = form.querySelector('input[type="email"]');
   const error = form.querySelector('.form-error');
   const success = form.querySelector('.form-success');
   const successText = success.querySelector('.success-text');
@@ -296,11 +210,14 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
   const clearError = () => {
     error.hidden = true;
     error.textContent = '';
-    input.removeAttribute('aria-invalid');
+    nameInput?.removeAttribute('aria-invalid');
+    emailInput.removeAttribute('aria-invalid');
   };
 
-  input.addEventListener('input', () => {
-    if (!error.hidden) clearError();
+  [nameInput, emailInput].filter(Boolean).forEach((input) => {
+    input.addEventListener('input', () => {
+      if (!error.hidden) clearError();
+    });
   });
 
   form.addEventListener('submit', async (event) => {
@@ -308,19 +225,31 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
 
     if (form.getAttribute('aria-busy') === 'true') return;
 
-    const value = input.value.trim();
+    const name = nameInput ? nameInput.value.trim() : '';
+    const email = emailInput.value.trim();
 
-    if (!EMAIL_PATTERN.test(value)) {
+    if (nameInput && name.length < 2) {
+      clearError();
+      error.textContent = 'Enter your full name.';
+      error.hidden = false;
+      nameInput.setAttribute('aria-invalid', 'true');
+      nameInput.focus();
+      return;
+    }
+
+    if (!EMAIL_PATTERN.test(email)) {
+      clearError();
       error.textContent = 'Enter a valid work email, for example you@company.com.';
       error.hidden = false;
-      input.setAttribute('aria-invalid', 'true');
-      input.focus();
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.focus();
       return;
     }
 
     const endpoint = getFormEndpoint();
 
     if (!FORM_ENDPOINT_PATTERN.test(endpoint)) {
+      clearError();
       error.textContent = 'Requests are not connected yet. Add your Formspree endpoint in the page head.';
       error.hidden = false;
       return;
@@ -351,12 +280,13 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
       button.textContent = buttonLabel;
 
       if (newsletter?.checked && successText) {
-        successText.textContent = "We'll reach out within one week. You're also on the newsletter list.";
+        successText.textContent = "We'll keep you updated and send product news too.";
       }
     } catch (requestError) {
       form.removeAttribute('aria-busy');
       button.disabled = false;
       button.textContent = buttonLabel;
+      clearError();
       error.textContent = 'Could not send your request. Check your connection and try again.';
       error.hidden = false;
       console.error('CooptaIQ form submission failed:', requestError);
@@ -365,7 +295,7 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
 });
 
 /* =========================================================
-   Header — scroll state, mobile menu, scroll spy
+   Header, mobile menu and scroll spy
    ========================================================= */
 
 const header = document.querySelector('[data-header]');
@@ -415,23 +345,16 @@ if (menuToggle && nav) {
     event.preventDefault();
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    target.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'start'
-    });
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
 
     if (window.history && window.history.pushState) {
       window.history.pushState(null, '', hash);
     }
 
-    const heading = target.querySelector('h2') || target;
+    const heading = target.querySelector('h1, h2') || target;
     heading.setAttribute('tabindex', '-1');
     heading.focus({ preventScroll: true });
-    heading.addEventListener(
-      'blur',
-      () => heading.removeAttribute('tabindex'),
-      { once: true }
-    );
+    heading.addEventListener('blur', () => heading.removeAttribute('tabindex'), { once: true });
   });
 
   document.addEventListener('keydown', (event) => {
