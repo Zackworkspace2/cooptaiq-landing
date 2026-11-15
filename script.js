@@ -128,14 +128,25 @@ cookieSettings?.addEventListener('click', () => {
    ========================================================= */
 
 const previewTabs = Array.from(document.querySelectorAll('[data-preview-tab]'));
-const previewPanels = Array.from(document.querySelectorAll('[data-preview-panel]'));
-const previewFrame = document.querySelector('.product-frame');
+const previewImage = document.querySelector('[data-product-image]');
 
-const previewLabels = {
-  overview: 'Illustrative CooptaIQ overview preview showing people, assessments and learning activity.',
-  people: 'Illustrative CooptaIQ people preview showing an employee list and departments.',
-  assessments: 'Illustrative CooptaIQ assessments preview showing active and closed assessments.',
-  learning: 'Illustrative CooptaIQ learning preview showing assigned courses and progress.'
+const previewData = {
+  hr: {
+    src: 'assets/product-hr.png',
+    alt: 'Illustrative CooptaIQ HR dashboard showing people, assessments, recruitment and learning.'
+  },
+  employee: {
+    src: 'assets/product-employee.png',
+    alt: 'Illustrative CooptaIQ employee portal showing onboarding, assessments and learning.'
+  },
+  intern: {
+    src: 'assets/product-intern.png',
+    alt: 'Illustrative CooptaIQ intern and corper portal showing onboarding tasks and progress.'
+  },
+  admin: {
+    src: 'assets/product-admin.png',
+    alt: 'Illustrative CooptaIQ platform admin view showing companies, assessments and activity.'
+  }
 };
 
 function activatePreview(key, focusTab = false) {
@@ -146,20 +157,14 @@ function activatePreview(key, focusTab = false) {
     if (active && focusTab) tab.focus();
   });
 
-  previewPanels.forEach((panel) => {
-    const active = panel.getAttribute('data-preview-panel') === key;
-    panel.hidden = !active;
+  const data = previewData[key];
+  if (!previewImage || !data) return;
 
-    if (active) {
-      panel.classList.remove('is-entering');
-      void panel.offsetWidth;
-      panel.classList.add('is-entering');
-    }
-  });
-
-  if (previewFrame && previewLabels[key]) {
-    previewFrame.setAttribute('aria-label', previewLabels[key]);
-  }
+  previewImage.classList.remove('is-swapping');
+  void previewImage.offsetWidth;
+  previewImage.src = data.src;
+  previewImage.alt = data.alt;
+  previewImage.classList.add('is-swapping');
 }
 
 if (previewTabs.length) {

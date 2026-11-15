@@ -554,6 +554,19 @@ p { color: inherit; }
   min-width: 0;
 }
 
+.hero-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top left;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+}
+
 .preview-label {
   display: inline-flex;
   align-items: center;
@@ -1183,6 +1196,19 @@ p { color: inherit; }
   color: #12213B;
   box-shadow: 0 16px 36px -28px rgba(0, 0, 0, 0.5);
 }
+
+.step-shot {
+  display: block;
+  width: 100%;
+  height: 168px;
+  margin-top: 22px;
+  object-fit: cover;
+  object-position: top left;
+  background: #FFFFFF;
+  border: 1px solid rgba(18, 33, 59, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 16px 36px -28px rgba(0, 0, 0, 0.5);
+}
 .mini-ui-head {
   display: flex;
   align-items: baseline;
@@ -1286,8 +1312,8 @@ p { color: inherit; }
 }
 
 .product-frame {
-  display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
+  display: block;
+  padding: 0;
   overflow: hidden;
   background: #FFFFFF;
   border: 1px solid rgba(18, 33, 59, 0.14);
@@ -1295,6 +1321,15 @@ p { color: inherit; }
   box-shadow: var(--shadow-lg);
   color: #12213B;
 }
+
+.product-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #FFFFFF;
+}
+
+.product-shot.is-swapping { animation: panel-in 260ms var(--ease) both; }
 
 .product-side {
   display: flex;
@@ -2109,6 +2144,8 @@ p { color: inherit; }
   .who-grid { grid-template-columns: 1fr; }
 
   .hero { padding-top: 48px; }
+  .hero-shot { aspect-ratio: 4 / 3; }
+  .step-shot { height: 190px; }
   .hero-actions .btn { flex: 1 1 auto; }
   .dash { grid-template-columns: 1fr; }
   .dash-side { display: none; }
@@ -2151,8 +2188,12 @@ p { color: inherit; }
   .form-grid { grid-template-columns: 1fr; }
   .waitlist-card { padding: 22px 18px 24px; }
 
-  .product-tabs { width: 100%; }
-  .product-tab { flex: 1 0 auto; }
+  .product-tabs {
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+  .product-tab { flex: 1 1 auto; }
 
   .footer-top { grid-template-columns: 1fr; gap: 28px; }
   .footer-brand { grid-column: auto; }

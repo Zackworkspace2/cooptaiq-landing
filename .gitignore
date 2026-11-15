@@ -2,6 +2,9 @@
 CooptaIQ_Brand_Guidelines (1).html
 cooptaiq_landing_dark (1).html
 
+# Internal product prototypes — do not publish
+dash/
+
 # Local test tooling
 .deps/
 _test/
