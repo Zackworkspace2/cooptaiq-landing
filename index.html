@@ -9,15 +9,23 @@
   <meta name="form-endpoint" content="https://formspree.io/f/maeoejay">
   <script>
     (function () {
+      var saved = null;
+
       try {
-        var saved = localStorage.getItem('cooptaiq-theme');
-        if (saved === 'light' || saved === 'dark') {
-          document.documentElement.setAttribute('data-theme', saved);
-          if (saved === 'light') {
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F6F4EE');
-          }
-        }
+        saved = localStorage.getItem('cooptaiq-theme');
       } catch (error) {}
+
+      if (saved !== 'light' && saved !== 'dark') {
+        var match = document.cookie.match(/(?:^|; )cooptaiq_theme=(light|dark)/);
+        saved = match ? match[1] : null;
+      }
+
+      if (saved === 'light' || saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+        if (saved === 'light') {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F6F4EE');
+        }
+      }
     })();
   </script>
   <meta property="og:title" content="CooptaIQ — Admitted. Assessed. Confirmed.">
@@ -79,14 +87,20 @@
           <form class="signup-form" data-signup action="https://formspree.io/f/maeoejay" method="POST" novalidate>
             <input type="hidden" name="_subject" value="CooptaIQ design partner request — hero">
             <input type="hidden" name="source" value="hero">
+            <input type="hidden" name="consent" value="contact-about-design-partner-program">
             <input class="form-honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="field" data-field>
-              <label for="hero-email">Work email</label>
+              <label class="field-label" for="hero-email">Work email</label>
               <div class="input-row">
                 <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required aria-describedby="hero-email-note hero-email-error" aria-invalid="false">
                 <button class="btn btn--brass" type="submit">Join the waitlist</button>
               </div>
+              <label class="newsletter-opt">
+                <input type="checkbox" name="newsletter" value="yes">
+                <span>Send me the CooptaIQ newsletter (optional).</span>
+              </label>
               <p class="form-note" id="hero-email-note">We're onboarding a small number of design partners across banking, telecoms, FMCG, and manufacturing.</p>
+              <p class="form-consent">By submitting, you agree to be contacted about the design partner program. We won't share your email.</p>
               <p class="form-error" id="hero-email-error" role="alert" hidden></p>
             </div>
             <div class="form-success" role="status" hidden>
@@ -369,14 +383,20 @@
           <form class="signup-form signup-form--panel" data-signup action="https://formspree.io/f/maeoejay" method="POST" novalidate>
             <input type="hidden" name="_subject" value="CooptaIQ design partner request — access section">
             <input type="hidden" name="source" value="access">
+            <input type="hidden" name="consent" value="contact-about-design-partner-program">
             <input class="form-honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="field" data-field>
-              <label for="cta-email">Work email</label>
+              <label class="field-label" for="cta-email">Work email</label>
               <div class="input-row">
                 <input id="cta-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required aria-describedby="cta-email-note cta-email-error" aria-invalid="false">
                 <button class="btn btn--navy" type="submit">Request access</button>
               </div>
+              <label class="newsletter-opt">
+                <input type="checkbox" name="newsletter" value="yes">
+                <span>Send me the CooptaIQ newsletter (optional).</span>
+              </label>
               <p class="form-note" id="cta-email-note">Currently onboarding in Nigeria.</p>
+              <p class="form-consent">By submitting, you agree to be contacted about the design partner program. We won't share your email.</p>
               <p class="form-error" id="cta-email-error" role="alert" hidden></p>
             </div>
             <div class="form-success" role="status" hidden>
@@ -419,10 +439,24 @@
       <div class="footer-meta">
         <p>Lagos, Nigeria</p>
         <p>&copy; 2026 CooptaIQ</p>
+        <button class="footer-cookie" type="button" data-cookie-settings>Cookie settings</button>
         <a href="#top" class="footer-top">Back to top</a>
       </div>
     </div>
   </footer>
+
+  <aside class="cookie-banner" data-cookie-banner role="region" aria-labelledby="cookie-title" aria-describedby="cookie-text" hidden>
+    <div class="cookie-copy">
+      <p class="cookie-title" id="cookie-title">Cookies</p>
+      <p class="cookie-text" id="cookie-text">We use essential cookies and local storage to remember your theme and this choice. No tracking or advertising cookies.</p>
+    </div>
+    <div class="cookie-actions">
+      <button class="btn btn--cookie-essential" type="button" data-cookie-choice="essential">Essential only</button>
+      <button class="btn btn--brass" type="button" data-cookie-choice="all">Accept</button>
+    </div>
+  </aside>
+
+  <p class="sr-only" role="status" data-cookie-status></p>
 
   <script src="script.js"></script>
 </body>

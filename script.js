@@ -8,6 +8,22 @@ const root = document.documentElement;
 const themeToggle = document.querySelector('[data-theme-toggle]');
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const THEME_KEY = 'cooptaiq-theme';
+const THEME_COOKIE = 'cooptaiq_theme';
+const CONSENT_COOKIE = 'cooptaiq_consent';
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : '';
+}
+
+function setCookie(name, value, days) {
+  const maxAge = days * 24 * 60 * 60;
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax${secure}`;
+}
+
+const existingConsent = getCookie(CONSENT_COOKIE);
+if (existingConsent) root.dataset.cookieConsent = existingConsent;
 
 function currentTheme() {
   return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
@@ -38,6 +54,8 @@ function setTheme(theme, persist = true) {
   try {
     localStorage.setItem(THEME_KEY, theme);
   } catch (error) {}
+
+  setCookie(THEME_COOKIE, theme, 365);
 }
 
 if (themeToggle) {
@@ -52,6 +70,57 @@ if (themeToggle) {
     syncTheme(event.newValue === 'light' ? 'light' : 'dark');
   });
 }
+
+/* =========================================================
+   Cookie consent
+   ========================================================= */
+
+const cookieBanner = document.querySelector('[data-cookie-banner]');
+const cookieStatus = document.querySelector('[data-cookie-status]');
+const cookieSettings = document.querySelector('[data-cookie-settings]');
+const mainContent = document.getElementById('main');
+
+function showCookieBanner(shouldFocus = false) {
+  if (!cookieBanner) return;
+
+  cookieBanner.hidden = false;
+
+  if (shouldFocus) {
+    const firstChoice = cookieBanner.querySelector('[data-cookie-choice]');
+    if (firstChoice) firstChoice.focus();
+  }
+}
+
+function closeCookieBanner() {
+  if (!cookieBanner) return;
+
+  cookieBanner.hidden = true;
+
+  if (mainContent) mainContent.focus({ preventScroll: true });
+}
+
+if (cookieBanner && !getCookie(CONSENT_COOKIE)) {
+  showCookieBanner();
+}
+
+cookieBanner?.querySelectorAll('[data-cookie-choice]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const choice = button.getAttribute('data-cookie-choice');
+
+    setCookie(CONSENT_COOKIE, choice, 180);
+    root.dataset.cookieConsent = choice;
+
+    if (cookieStatus) {
+      cookieStatus.textContent = 'Cookie preferences saved.';
+    }
+
+    closeCookieBanner();
+  });
+});
+
+cookieSettings?.addEventListener('click', () => {
+  showCookieBanner(true);
+});
 
 /* =========================================================
    Confirmation corridor — stage data
@@ -219,6 +288,8 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
   const input = form.querySelector('input[type="email"]');
   const error = form.querySelector('.form-error');
   const success = form.querySelector('.form-success');
+  const successText = success.querySelector('.success-text');
+  const newsletter = form.querySelector('input[name="newsletter"]');
   const button = form.querySelector('button[type="submit"]');
   const buttonLabel = button.textContent;
 
@@ -278,6 +349,10 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
       success.focus({ preventScroll: true });
       button.disabled = false;
       button.textContent = buttonLabel;
+
+      if (newsletter?.checked && successText) {
+        successText.textContent = "We'll reach out within one week. You're also on the newsletter list.";
+      }
     } catch (requestError) {
       form.removeAttribute('aria-busy');
       button.disabled = false;
