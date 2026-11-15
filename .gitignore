@@ -1,0 +1,9 @@
+# Internal brand source — do not publish
+CooptaIQ_Brand_Guidelines (1).html
+cooptaiq_landing_dark (1).html
+
+# Local test tooling
+.deps/
+_test/
+Thumbs.db
+.DS_Store

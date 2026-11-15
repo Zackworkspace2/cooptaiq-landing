@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CooptaIQ — Admitted. Assessed. Confirmed.</title>
+  <meta name="description" content="CooptaIQ turns your policy documents into a structured onboarding curriculum, a pass-or-fail assessment, and a 90-day probation record that ends in confirmation.">
+  <meta name="theme-color" content="#12213B">
+  <meta property="og:title" content="CooptaIQ — Admitted. Assessed. Confirmed.">
+  <meta property="og:description" content="Every new hire, guided from document to confirmed employee.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="CooptaIQ — home">
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="8" cy="20" r="3.5" fill="#C6972F" opacity="0.4"/>
+          <circle cx="18" cy="20" r="4.5" fill="#C6972F" opacity="0.7"/>
+          <circle cx="29" cy="20" r="5.5" fill="#C6972F"/>
+          <polyline points="25,17 29,21 35,14" stroke="#C6972F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-word">Coopta<span>IQ</span></span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a href="#how" data-nav>How it works</a>
+        <a href="#sectors" data-nav>Built for</a>
+        <a href="#record" data-nav>The record</a>
+        <a class="btn btn--brass nav-cta" href="#access">Request early access</a>
+      </nav>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-rule" aria-hidden="true"></span>Design partner program &middot; Nigeria</p>
+          <h1>
+            <span class="hero-line">Every new hire,</span>
+            <span class="hero-line">guided from <em>document</em></span>
+            <span class="hero-line">to <em>confirmed employee</em>.</span>
+          </h1>
+          <p class="lede">CooptaIQ turns the handbook you already have into a structured curriculum, a pass-or-fail assessment, and a 90-day probation record that ends in confirmation.</p>
+
+          <form class="signup-form" data-signup novalidate>
+            <div class="field" data-field>
+              <label for="hero-email">Work email</label>
+              <div class="input-row">
+                <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required aria-describedby="hero-email-note hero-email-error" aria-invalid="false">
+                <button class="btn btn--brass" type="submit">Join the waitlist</button>
+              </div>
+              <p class="form-note" id="hero-email-note">We're onboarding a small number of design partners across banking, telecoms, FMCG, and manufacturing.</p>
+              <p class="form-error" id="hero-email-error" role="alert" hidden></p>
+            </div>
+            <div class="form-success" role="status" hidden>
+              <span class="success-mark" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <div>
+                <p class="success-title">Request received.</p>
+                <p class="success-text">We'll reach out within one week to schedule a short conversation.</p>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <aside class="record-card" aria-labelledby="record-title">
+          <div class="record-top">
+            <span class="record-label" id="record-title">Onboarding record</span>
+            <span class="record-sample">Sample</span>
+          </div>
+          <div class="record-meta">
+            <span>ADM-2026-041</span>
+            <span>Operations &middot; Lagos</span>
+          </div>
+
+          <div class="record-live" aria-live="polite">
+            <div class="record-status">
+              <div class="record-status-copy">
+                <p class="record-stage" data-record-stage>Stage 05 of 05</p>
+                <p class="record-state" data-record-state>Confirmed</p>
+                <p class="record-desc" data-record-desc>Status written to the employee record and synced to payroll.</p>
+              </div>
+              <div class="record-seal" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>On record</span>
+              </div>
+            </div>
+
+            <div class="record-progress" aria-hidden="true">
+              <span class="rp-dot"></span>
+              <span class="rp-dot"></span>
+              <span class="rp-dot"></span>
+              <span class="rp-dot"></span>
+              <span class="rp-dot"></span>
+            </div>
+
+            <ol class="record-log" data-record-log>
+              <li>
+                <span class="log-date">03 Mar 2026</span>
+                <span class="log-copy"><strong>Documents received</strong><span>3 documents &middot; 84 pages indexed</span></span>
+              </li>
+              <li>
+                <span class="log-date">18 Mar 2026</span>
+                <span class="log-copy"><strong>Assessment passed</strong><span>94.2% &middot; 11 of 11 modules complete</span></span>
+              </li>
+              <li>
+                <span class="log-date">02 Jun 2026</span>
+                <span class="log-copy"><strong>Confirmed</strong><span>3 review sign-offs &middot; payroll synced</span></span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="record-foot">
+            <span data-record-foot>Record complete &middot; 02 Jun 2026</span>
+            <span>CooptaIQ</span>
+          </div>
+        </aside>
+      </div>
+
+      <div class="container corridor-block">
+        <div class="corridor-head">
+          <p class="kicker">The 90-day confirmation corridor</p>
+          <p class="corridor-hint">Select a stage to inspect the record</p>
+        </div>
+        <div class="corridor" role="group" aria-label="Confirmation corridor stages">
+          <div class="corridor-rail" aria-hidden="true"><span class="corridor-fill" data-corridor-fill></span></div>
+
+          <button class="corridor-stop" type="button" data-stage="0" aria-pressed="false">
+            <span class="stop-dot" aria-hidden="true"></span>
+            <span class="stop-day">Day 1</span>
+            <span class="stop-title">Documents uploaded</span>
+            <span class="stop-desc">Handbook, policy, compliance manuals</span>
+          </button>
+          <button class="corridor-stop" type="button" data-stage="1" aria-pressed="false">
+            <span class="stop-dot" aria-hidden="true"></span>
+            <span class="stop-day">Day 3</span>
+            <span class="stop-title">Curriculum generated</span>
+            <span class="stop-desc">AI structures modules and quiz bank</span>
+          </button>
+          <button class="corridor-stop" type="button" data-stage="2" aria-pressed="false">
+            <span class="stop-dot" aria-hidden="true"></span>
+            <span class="stop-day">Day 14</span>
+            <span class="stop-title">Litmus assessment</span>
+            <span class="stop-desc">New hire is tested, not just trained</span>
+          </button>
+          <button class="corridor-stop" type="button" data-stage="3" aria-pressed="false">
+            <span class="stop-dot" aria-hidden="true"></span>
+            <span class="stop-day">Day 15&ndash;89</span>
+            <span class="stop-title">Probation tracked</span>
+            <span class="stop-desc">Milestones, reviews, sign-offs</span>
+          </button>
+          <button class="corridor-stop" type="button" data-stage="4" aria-pressed="true">
+            <span class="stop-dot" aria-hidden="true"></span>
+            <span class="stop-day">Day 90</span>
+            <span class="stop-title">Confirmed &amp; synced</span>
+            <span class="stop-desc">Status flows to payroll automatically</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sectors-band" id="sectors">
+      <div class="container sectors-grid">
+        <div>
+          <p class="kicker">Built for</p>
+          <h2>High-volume hiring, in the sectors that carry the most risk.</h2>
+        </div>
+        <div class="sectors-copy">
+          <p>Enterprises with 500+ employees and continuous hiring cycles, in Nigeria's most regulated and fastest-moving sectors.</p>
+          <ul class="sector-list">
+            <li>Banking</li>
+            <li>Telecoms</li>
+            <li>FMCG</li>
+            <li>Manufacturing</li>
+            <li>Insurance</li>
+            <li>Logistics</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper problem" id="problem">
+      <div class="container">
+        <div class="problem-head">
+          <div>
+            <p class="kicker">The gap today</p>
+            <h2>Onboarding stops at week one. <em>Confirmation is left to memory.</em></h2>
+          </div>
+          <p class="lead">Most HR platforms manage the first day well and go quiet after that. The probation period &mdash; where retention risk and legal exposure actually live &mdash; is tracked in spreadsheets, if it's tracked at all.</p>
+        </div>
+
+        <div class="gap-list">
+          <article class="gap">
+            <p class="gap-label">Week one</p>
+            <h3>The curriculum ends with the induction.</h3>
+            <p>Policy knowledge is delivered once, in a room or a PDF, and never tested. New hires learn the handbook, not the obligations that come with the role.</p>
+          </article>
+          <article class="gap">
+            <p class="gap-label">Months two and three</p>
+            <h3>Reviews live in someone's calendar.</h3>
+            <p>Probation check-ins depend on a manager remembering. There is no common record of what was covered, what was signed, or what still needs attention.</p>
+          </article>
+          <article class="gap">
+            <p class="gap-label">Day ninety</p>
+            <h3>The confirmation decision has no trail.</h3>
+            <p>When a confirmation is questioned, the evidence is scattered across email, paper, and memory &mdash; if it exists at all.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--navy how" id="how">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="kicker">How it works</p>
+            <h2>Four steps, from policy document to confirmed employee.</h2>
+          </div>
+          <p class="lead">No new portal for HR to learn. CooptaIQ works from the documents your organisation already treats as authoritative.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step-dot" aria-hidden="true"></span>
+            <span class="step-index">01</span>
+            <h3>Upload</h3>
+            <p>Hand your handbook, code of conduct, and compliance manuals to CooptaIQ once.</p>
+          </li>
+          <li class="step">
+            <span class="step-dot" aria-hidden="true"></span>
+            <span class="step-index">02</span>
+            <h3>Generate</h3>
+            <p>The AI structures a role-specific curriculum and quiz bank from your own policy.</p>
+          </li>
+          <li class="step">
+            <span class="step-dot" aria-hidden="true"></span>
+            <span class="step-index">03</span>
+            <h3>Assess</h3>
+            <p>New hires train and sit a litmus-test assessment before probation formally begins.</p>
+          </li>
+          <li class="step">
+            <span class="step-dot" aria-hidden="true"></span>
+            <span class="step-index">04</span>
+            <h3>Confirm</h3>
+            <p>Probation milestones are tracked automatically, ending in confirmation and a payroll sync.</p>
+          </li>
+        </ol>
+
+        <a class="text-link" href="#record">See what the record captures</a>
+      </div>
+    </section>
+
+    <section class="section section--paper record-section" id="record">
+      <div class="container record-grid">
+        <div class="record-copy">
+          <p class="kicker">Legal defensibility</p>
+          <h2>Not just onboarding software. A confirmation record.</h2>
+          <p class="lead">Every module completed, every assessment score, every probation milestone &mdash; timestamped and exportable. If a confirmation decision is ever challenged, the record already exists.</p>
+
+          <ul class="proof-list">
+            <li>
+              <span class="proof-mark" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><h3>Completed training log</h3><p>Per employee, per module, with timestamps.</p></div>
+            </li>
+            <li>
+              <span class="proof-mark" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><h3>Assessment scores on file</h3><p>The litmus test result behind every confirmation.</p></div>
+            </li>
+            <li>
+              <span class="proof-mark" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><h3>Probation review trail</h3><p>Manager sign-offs at each milestone, not just at the end.</p></div>
+            </li>
+            <li>
+              <span class="proof-mark" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><h3>Exportable on request</h3><p>For audits, disputes, or regulatory review.</p></div>
+            </li>
+          </ul>
+        </div>
+
+        <figure class="dossier">
+          <div class="dossier-head">
+            <span class="dossier-label">Admission file</span>
+            <span class="dossier-ref">ADM-2026-041</span>
+          </div>
+          <dl class="dossier-rows">
+            <div class="dossier-row"><dt>Employee</dt><dd>New hire &mdash; Operations</dd></div>
+            <div class="dossier-row"><dt>Start date</dt><dd>03 Mar 2026</dd></div>
+            <div class="dossier-row"><dt>Probation</dt><dd>90 days</dd></div>
+            <div class="dossier-row"><dt>Modules</dt><dd>11 of 11 complete</dd></div>
+            <div class="dossier-row"><dt>Assessment</dt><dd>94.2% &middot; Pass</dd></div>
+            <div class="dossier-row"><dt>Review 01</dt><dd>Signed 14 Apr 2026</dd></div>
+            <div class="dossier-row"><dt>Review 02</dt><dd>Signed 12 May 2026</dd></div>
+            <div class="dossier-row"><dt>Review 03</dt><dd>Signed 01 Jun 2026</dd></div>
+          </dl>
+          <div class="dossier-decision">
+            <span>Decision</span>
+            <strong><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Confirmed</strong>
+          </div>
+          <figcaption>Sample record. Every entry timestamped and exportable.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="heritage">
+      <div class="container heritage-grid">
+        <div class="heritage-mark" aria-hidden="true">
+          <span class="hm-dot hm-dot-1"></span>
+          <span class="hm-dot hm-dot-2"></span>
+          <span class="hm-dot hm-dot-3"></span>
+          <svg width="54" height="54" viewBox="0 0 48 48" fill="none"><polyline points="6,24 18,36 42,12" stroke="#C6972F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="heritage-copy">
+          <p class="kicker">The name</p>
+          <blockquote>&ldquo;Cooptatio was not paperwork. It was the formal act of admitting a new member &mdash; deliberate, witnessed, and recorded.&rdquo;</blockquote>
+          <p>In ancient Rome, cooptatio admitted a new member into the Senate or a collegium. CooptaIQ brings that same seriousness to the modern enterprise: the journey from new hire to confirmed employee, made formal, verifiable, and human.</p>
+          <p class="heritage-line">The Roman Senate called it cooptatio. We call it CooptaIQ.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="access">
+      <div class="container">
+        <div class="cta-panel">
+          <div class="cta-copy">
+            <p class="kicker">Design partner program</p>
+            <h2>We're recruiting a small number of design partners.</h2>
+            <p>No cost to join. In exchange, we ask for two discovery conversations and feedback on the lean MVP as it's built.</p>
+            <p class="cta-note">We'll reach out within a week to schedule a short conversation.</p>
+          </div>
+
+          <form class="signup-form signup-form--panel" data-signup novalidate>
+            <div class="field" data-field>
+              <label for="cta-email">Work email</label>
+              <div class="input-row">
+                <input id="cta-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required aria-describedby="cta-email-note cta-email-error" aria-invalid="false">
+                <button class="btn btn--navy" type="submit">Request access</button>
+              </div>
+              <p class="form-note" id="cta-email-note">Currently onboarding in Nigeria.</p>
+              <p class="form-error" id="cta-email-error" role="alert" hidden></p>
+            </div>
+            <div class="form-success" role="status" hidden>
+              <span class="success-mark" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="4,12 10,18 20,6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <div>
+                <p class="success-title">Request received.</p>
+                <p class="success-text">We'll reach out within one week to schedule a short conversation.</p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="CooptaIQ — back to top">
+          <svg class="brand-mark" width="26" height="26" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="8" cy="20" r="3.5" fill="#C6972F" opacity="0.4"/>
+            <circle cx="18" cy="20" r="4.5" fill="#C6972F" opacity="0.7"/>
+            <circle cx="29" cy="20" r="5.5" fill="#C6972F"/>
+            <polyline points="25,17 29,21 35,14" stroke="#C6972F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand-word">Coopta<span>IQ</span></span>
+        </a>
+        <p class="footer-tagline">Admitted. Assessed. Confirmed.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#sectors">Built for</a>
+        <a href="#record">The record</a>
+        <a href="#access">Request access</a>
+      </nav>
+
+      <div class="footer-meta">
+        <p>Lagos, Nigeria</p>
+        <p>&copy; 2026 CooptaIQ</p>
+        <a href="#top" class="footer-top">Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
