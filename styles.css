@@ -1050,6 +1050,86 @@ p { color: inherit; }
 .section-note strong { color: var(--ink); font-weight: 600; }
 
 /* =========================================================
+   Recruitment assessments
+   ========================================================= */
+
+.section--recruit { background: var(--page); }
+
+.recruit-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 5vw, 64px);
+  padding: clamp(24px, 4.5vw, 48px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--brass);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.recruit-copy h2 {
+  max-width: 430px;
+  font-size: clamp(31px, 3.4vw, 44px);
+}
+
+.recruit-copy > p:not(.kicker):not(.recruit-note) {
+  max-width: 440px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.recruit-note {
+  max-width: 430px;
+  margin-top: 20px;
+  padding-left: 14px;
+  border-left: 2px solid var(--brass);
+  color: var(--faint);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.recruit-note strong { color: var(--ink); font-weight: 600; }
+
+.recruit-steps {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid var(--line);
+}
+
+.recruit-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--line);
+}
+.recruit-steps li:last-child { padding-bottom: 0; border-bottom: 0; }
+
+.recruit-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(198, 151, 47, 0.55);
+  border-radius: 50%;
+  color: var(--brass);
+  font-family: var(--mono);
+  font-size: 8.5px;
+}
+
+.recruit-steps h3 {
+  margin-bottom: 3px;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.2;
+}
+.recruit-steps p { color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+/* =========================================================
    How it works
    ========================================================= */
 
@@ -1995,6 +2075,10 @@ p { color: inherit; }
   .feature-grid,
   .who-grid { grid-template-columns: 1fr 1fr; }
   .step-grid { grid-template-columns: 1fr; }
+
+  .recruit-panel { grid-template-columns: 1fr; gap: 26px; }
+  .recruit-copy h2 { max-width: 580px; }
+  .recruit-note { max-width: 580px; }
   .step-card { padding: 24px; }
   .mini-ui { max-width: 430px; }
   .step-card p { max-width: 520px; }
