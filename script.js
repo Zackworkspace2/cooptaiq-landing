@@ -201,10 +201,37 @@ function getFormEndpoint() {
   return meta ? meta.getAttribute('content').trim() : '';
 }
 
+function getNewsletterEndpoint() {
+  const meta = document.querySelector('meta[name="newsletter-endpoint"]');
+  return meta ? meta.getAttribute('content').trim() : '';
+}
+
+async function syncNewsletter(payload) {
+  const endpoint = getNewsletterEndpoint();
+
+  if (!endpoint || endpoint.includes('REPLACE-ME')) return;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Newsletter service rejected the request (${response.status}).`);
+    }
+  } catch (error) {
+    console.error('CooptaIQ newsletter sync failed:', error);
+  }
+}
+
 document.querySelectorAll('[data-signup]').forEach((form) => {
   const field = form.querySelector('[data-field]');
   const nameInput = form.querySelector('input[name="full_name"]');
   const emailInput = form.querySelector('input[type="email"]');
+  const companyInput = form.querySelector('input[name="company"]');
+  const roleInput = form.querySelector('input[name="role"]');
   const error = form.querySelector('.form-error');
   const success = form.querySelector('.form-success');
   const successText = success.querySelector('.success-text');
@@ -284,8 +311,19 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
       button.disabled = false;
       button.textContent = buttonLabel;
 
-      if (newsletter?.checked && successText) {
-        successText.textContent = "We'll keep you updated and send product news too.";
+      if (newsletter?.checked) {
+        if (successText) {
+          successText.textContent = "We'll keep you updated and send product news too.";
+        }
+
+        void syncNewsletter({
+          email,
+          full_name: name,
+          company: companyInput ? companyInput.value.trim() : '',
+          role: roleInput ? roleInput.value.trim() : '',
+          source: 'waitlist',
+          newsletter: true
+        });
       }
     } catch (requestError) {
       form.removeAttribute('aria-busy');
