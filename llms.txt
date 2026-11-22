@@ -1,0 +1,25 @@
+# CooptaIQ
+
+> CooptaIQ brings recruitment assessments, employee onboarding, people management and workplace learning together in one platform. Built for companies that want a more organised way to manage their people.
+
+CooptaIQ is a pre-launch workforce platform based in Lagos, Nigeria.
+
+## What CooptaIQ does
+
+- Recruitment assessments: create assessments, share candidate links, review results.
+- Employee onboarding and management: profiles, records and user management.
+- Learning and training: courses, assignments and learning progress.
+- Employee assessments and performance: assessment results and progress visibility.
+- AI-assisted creation of assessments and learning materials.
+
+Candidates complete recruitment assessments through shared links. They do not need an account or dashboard access.
+
+## Pages
+
+- [Home](https://www.cooptaiq.com/): product overview, capabilities and waitlist.
+- [Privacy Policy](https://www.cooptaiq.com/privacy): how waitlist and newsletter data is handled.
+- [Terms of Service](https://www.cooptaiq.com/terms): website and waitlist terms.
+
+## Contact
+
+Join the waitlist on the home page for product updates and early access.

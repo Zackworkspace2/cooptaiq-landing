@@ -8,5 +8,6 @@ dash/
 # Local test tooling
 .deps/
 _test/
+.vercel/
 Thumbs.db
 .DS_Store

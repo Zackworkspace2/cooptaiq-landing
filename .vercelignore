@@ -1,0 +1,17 @@
+# Internal source — do not deploy
+dash/
+cloudflare/
+CooptaIQ_Brand_Guidelines (1).html
+cooptaiq_landing_dark (1).html
+
+# Local tools and notes
+.deps/
+_test/
+.vercel/
+*.md
+.git/
+.gitignore
+
+# Local environment files
+.env
+.env.*
