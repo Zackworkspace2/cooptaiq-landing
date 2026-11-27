@@ -1,27 +1,34 @@
-# CooptaIQ — Brevo newsletter bridge
+# CooptaIQ — Brevo contact bridge
 
-Adds waitlist newsletter opt-ins to a Brevo list.
+Adds every waitlist registration to a Brevo waitlist list. That list triggers
+a Brevo automation that sends the welcome email.
 
-Formspree still stores the waitlist submission. Brevo receives only the
-newsletter contact. The Brevo API key is stored in Cloudflare, not in the page.
+Newsletter opt-ins are also added to the newsletter list.
 
-## 1. Create the Brevo list
+Formspree still stores the waitlist submission. The Brevo API key is stored in
+Cloudflare, not in the page.
+
+## 1. Create two Brevo lists
 
 1. Sign up at https://www.brevo.com
 2. Go to **Contacts → Lists**.
-3. Create a list named `CooptaIQ updates`.
-4. Copy the numeric list ID.
+3. Create `CooptaIQ waitlist`.
+4. Create `CooptaIQ updates`.
+5. Copy both numeric list IDs.
 
-Optional: enable double opt-in on that list before launch.
+Do not enable double opt-in on the waitlist list. It is for the welcome email,
+not marketing campaigns.
 
 ## 2. Create a Brevo API key
 
 1. Open **SMTP & API → API keys**.
-2. Create a key with contacts permission.
+2. Create a restricted key with:
+```text
+Contacts = All
+```
 3. Copy the key once. Keep it secret.
 
 Free plan: 100,000 stored contacts, 300 emails per day.
-Brevo is the newsletter sender; this worker only adds contacts.
 
 ## 3. Create the Cloudflare Worker
 
@@ -38,48 +45,69 @@ In the Worker: **Settings → Variables and Secrets**.
 | Name | Type | Value |
 | --- | --- | --- |
 | `BREVO_API_KEY` | Secret | Your Brevo API key |
-| `BREVO_LIST_ID` | Text | Numeric list ID |
-| `SITE_ORIGIN` | Text | Production origin, no trailing slash |
-
-Example production origin:
-
-```text
-https://zackworkspace2.github.io
-```
+| `BREVO_WAITLIST_ID` | Text | Waitlist list ID |
+| `BREVO_LIST_ID` | Text | Newsletter list ID |
+| `SITE_ORIGIN` | Text | `https://www.cooptaiq.com` |
 
 Origins already allowed: `http://127.0.0.1:4173`, `http://localhost:4173`,
 `http://192.168.0.183:4173`.
 
-For a custom domain, change `SITE_ORIGIN` or add the origin to
-`LOCAL_ORIGINS` in the worker.
+## 5. Create the welcome automation
 
-## 5. Connect the landing page
+In Brevo:
 
-Copy the deployed Worker URL, for example:
+1. Open **Automation**.
+2. Create a workflow.
+3. Trigger: **Contact added to a list**.
+4. Select `CooptaIQ waitlist`.
+5. Add a **Send email** step.
+6. Create the welcome email.
+
+Suggested subject:
 
 ```text
-https://cooptaiq-newsletter.yourname.workers.dev
+Welcome to CooptaIQ
 ```
 
-Replace this meta tag in `index.html`:
+Suggested body:
+
+```text
+Hi {{contact.FIRSTNAME}},
+
+Thank you for joining the CooptaIQ waitlist.
+
+We're building a better way for companies to manage people, recruitment
+assessments and workplace learning. You'll be among the first to know when
+CooptaIQ is ready.
+
+Admitted. Assessed. Confirmed.
+
+— CooptaIQ
+```
+
+7. Activate the automation.
+
+## 6. Connect the landing page
+
+The page already uses:
 
 ```html
-<meta name="newsletter-endpoint" content="https://REPLACE-ME.workers.dev">
+<meta name="newsletter-endpoint" content="https://cooptaiq-newsletter.cooptaiq.workers.dev">
 ```
 
-Until replaced, newsletter sync is skipped.
+## 7. Test
 
-## 6. Test
-
-1. Open the landing page.
-2. Submit the waitlist form with **Send me product updates** checked.
-3. Check **Brevo → Contacts** and the `CooptaIQ updates` list.
-4. Submit again with the box unchecked. No contact should be added.
+1. Submit the waitlist form without the newsletter box.
+2. Confirm the contact appears in `CooptaIQ waitlist`.
+3. Confirm the welcome email arrives.
+4. Submit again with the newsletter box checked.
+5. Confirm the contact also appears in `CooptaIQ updates`.
 
 ## Notes
 
 - Formspree Free still caps at 50 submissions per month.
 - Brevo Free allows 300 emails per day.
+- Do not send marketing campaigns to the waitlist list.
 - The Worker never sends the Brevo API key to the browser.
 - Full name is split into `FIRSTNAME` and `LASTNAME`.
 - Company and role stay in Formspree.

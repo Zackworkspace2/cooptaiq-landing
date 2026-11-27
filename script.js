@@ -222,7 +222,7 @@ async function syncNewsletter(payload) {
       throw new Error(`Newsletter service rejected the request (${response.status}).`);
     }
   } catch (error) {
-    console.error('CooptaIQ newsletter sync failed:', error);
+    console.error('CooptaIQ contact sync failed:', error);
   }
 }
 
@@ -311,20 +311,18 @@ document.querySelectorAll('[data-signup]').forEach((form) => {
       button.disabled = false;
       button.textContent = buttonLabel;
 
-      if (newsletter?.checked) {
-        if (successText) {
-          successText.textContent = "We'll keep you updated and send product news too.";
-        }
-
-        void syncNewsletter({
-          email,
-          full_name: name,
-          company: companyInput ? companyInput.value.trim() : '',
-          role: roleInput ? roleInput.value.trim() : '',
-          source: 'waitlist',
-          newsletter: true
-        });
+      if (newsletter?.checked && successText) {
+        successText.textContent = "We'll keep you updated and send product news too.";
       }
+
+      void syncNewsletter({
+        email,
+        full_name: name,
+        company: companyInput ? companyInput.value.trim() : '',
+        role: roleInput ? roleInput.value.trim() : '',
+        source: 'waitlist',
+        newsletter: Boolean(newsletter?.checked)
+      });
     } catch (requestError) {
       form.removeAttribute('aria-busy');
       button.disabled = false;

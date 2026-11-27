@@ -1,13 +1,17 @@
 /**
- * CooptaIQ — Brevo newsletter bridge
+ * CooptaIQ — Brevo contact bridge
  *
- * Receives newsletter opt-ins from the waitlist form and adds the contact
- * to a Brevo list. The Brevo API key stays in Cloudflare secrets.
+ * Adds every waitlist registration to a Brevo waitlist list. That list can
+ * trigger a Brevo automation that sends the welcome email.
+ *
+ * If the person opted into product updates, the contact is also added to the
+ * newsletter list.
  *
  * Required environment variables:
- *   BREVO_API_KEY  — Brevo API key with contacts permission
- *   BREVO_LIST_ID  — numeric Brevo list ID
- *   SITE_ORIGIN    — production origin, e.g. https://zackworkspace2.github.io
+ *   BREVO_API_KEY       — Brevo API key with contacts permission
+ *   BREVO_WAITLIST_ID   — numeric Brevo waitlist list ID
+ *   BREVO_LIST_ID       — numeric Brevo newsletter list ID
+ *   SITE_ORIGIN         — production origin, e.g. https://www.cooptaiq.com
  */
 
 const LOCAL_ORIGINS = [
@@ -65,14 +69,10 @@ export default {
       return json({ error: 'Invalid JSON.' }, 400, origin, env);
     }
 
-    const subscribed =
+    const wantsNewsletter =
       data?.newsletter === true ||
       data?.newsletter === 'true' ||
       data?.newsletter === 'yes';
-
-    if (!subscribed) {
-      return json({ ok: true, skipped: 'not subscribed' }, 200, origin, env);
-    }
 
     const email = String(data.email || '').trim().toLowerCase();
     const fullName = String(data.full_name || '').trim().slice(0, 120);
@@ -81,9 +81,14 @@ export default {
       return json({ error: 'Invalid email.' }, 400, origin, env);
     }
 
-    const listId = Number(env.BREVO_LIST_ID);
+    const waitlistId = Number(env.BREVO_WAITLIST_ID);
+    const newsletterId = Number(env.BREVO_LIST_ID);
 
-    if (!env.BREVO_API_KEY || !Number.isInteger(listId) || listId <= 0) {
+    if (!env.BREVO_API_KEY || !Number.isInteger(waitlistId) || waitlistId <= 0) {
+      return json({ error: 'Waitlist service is not configured.' }, 500, origin, env);
+    }
+
+    if (wantsNewsletter && (!Number.isInteger(newsletterId) || newsletterId <= 0)) {
       return json({ error: 'Newsletter service is not configured.' }, 500, origin, env);
     }
 
@@ -95,10 +100,14 @@ export default {
     if (firstName) attributes.FIRSTNAME = firstName;
     if (lastName) attributes.LASTNAME = lastName;
 
+    const listIds = [waitlistId];
+
+    if (wantsNewsletter) listIds.push(newsletterId);
+
     const contact = {
       email,
       attributes,
-      listIds: [listId],
+      listIds,
       updateEnabled: true
     };
 
@@ -118,6 +127,6 @@ export default {
       return json({ error: 'Brevo rejected the contact.' }, 502, origin, env);
     }
 
-    return json({ ok: true }, 200, origin, env);
+    return json({ ok: true, newsletter: wantsNewsletter }, 200, origin, env);
   }
 };
